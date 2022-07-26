@@ -4,6 +4,6 @@ dns cache snoop with: dig,tail,sed,cut,python
 <p align=""> <img src="https://raw.githubusercontent.com/d1sx/dnsnoop/main/domains.png" width="300"/> </p>
 
 ```bash
- git clone https://github.com/d1sx/tdcode.git
+ git clone https://github.com/d1sx/dnsnoop.git
  cd dnsnoop; chmod +x dnsnoop
 ```
