@@ -1,0 +1,27 @@
+#!/bin/python3
+
+import argparse
+from os import popen
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-t', action='store', dest='target', required=True)
+parser.add_argument('-d', action='store', dest='domain', required=False)
+parser.add_argument('-w', action='store', dest='wordlist', required=False)
+args = parser.parse_args()
+
+grep = """grep 'ANSWER:'| tail -n1 | sed 's/ //g'| sed 's/,/ /g'| sed 's/:/ /g' | cut -d" " -f5"""
+
+if args.target and args.domain:
+    output = popen(f"dig {args.target} {args.domain} A +norecurse | {grep}").read()
+    if '0' not in output:
+        print(f"[\033[1;36m accessed\033[0;0m ] - {args.domain}")
+else:
+    if args.target and args.wordlist:
+        with open(args.wordlist, 'r') as file:
+            links = file.read().split()
+            for link in links:
+                output = popen(f"dig {args.target} {link} A +norecurse | {grep}").read()
+                if '0' not in output:
+                     print(f"[\033[1;36m accessed\033[0;0m ] - {link}")
+    else:
+        print("use: --help")
